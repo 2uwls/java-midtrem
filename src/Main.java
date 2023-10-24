@@ -16,38 +16,64 @@ public class Main {
 			Station station = new Station(0,0);
 			
 			List <PublicTransport> transports = new ArrayList<>();
-			transports.add(new Train("Train", 0, 0, station));
-			transports.add(new Bus("Bus", 0, 0, station));
-			transports.add(new Taxi("Taxi", 0, 0));
-			transports.add(new Bus("Bus", 0, 0, station));
+//			transports.add(new Train("Train", 0, 0, station));
+//			transports.add(new Bus("Bus", 0, 0, station));
+//			transports.add(new Taxi("Taxi", 0, 0));
+//			transports.add(new Bus("Bus", 0, 0, station));
 			
 			System.out.println("Choose a transport:");
-		    for (int i = 0; i < transports.size(); i++) {
-		    	System.out.println((i + 1) + ". " + transports.get(i).getModel());
-		    }
+			System.out.println("0. Train");
+			System.out.println("1. Taxi");
+			System.out.println("2. Bus");
 			
 			int userChoice = input.nextInt();
-			if (userChoice!=0){
-				PublicTransport choosedTransport = transports.get(userChoice - 1);
-				System.out.println("You choose "+choosedTransport.getModel());
+		
+			if(userChoice == 0) {
+				System.out.println("You Choose TRAIN");
+				System.out.println("Enter base");
 				System.out.print("Enter base fare: ");
 				double baseFare= input.nextDouble();
-				choosedTransport.setBaseFare(baseFare);
-				//enter
-				if((userChoice -1) == 0 || (userChoice - 1) ==1) {
-					System.out.print("Enter fare per station (for extra stations): ");
-					double farePerStation = input.nextDouble();
-					//enter
-					System.out.print("Enter number of stations: ");
-					double nStations = input.nextDouble();
-				}else {
-					System.out.print("Enter fare per km: ");
-					double farePerKm = input.nextDouble();
-					System.out.print("Enter distance (in km): ");
-					double distance = input.nextDouble();
-				}
+				System.out.print("Enter fare per station (for extra stations): ");
+				double farePerStation = input.nextDouble();
+				System.out.print("Enter number of stations: ");
+				int nStations = input.nextInt();
 				
-				choosedTransport.calculatePayment();
+				station = new Station(farePerStation, nStations);
+				Train train = new Train("Train", baseFare, 0, station);
+				train.calculatePayment();
+				transports.add(train);
+			
+		
+			} else if (userChoice == 1) {
+				System.out.println("You Choose BUS");
+				System.out.println("Enter base");
+				System.out.print("Enter base fare: ");
+				double baseFare= input.nextDouble();
+				System.out.print("Enter fare per station (for extra stations): ");
+				double farePerStation = input.nextDouble();
+				System.out.print("Enter number of stations: ");
+				int nStations = input.nextInt();
+				
+				station = new Station(farePerStation, nStations);
+				Bus bus = new Bus("Bus", baseFare, 0, station);
+				bus.calculatePayment();
+				transports.add(bus);
+
+			} else {
+				System.out.println("You Choose TAXI");
+				System.out.println("Enter base");
+				System.out.print("Enter base fare: ");
+				double baseFare= input.nextDouble();
+				System.out.print("Enter fare per km: ");
+				double farePerKm = input.nextDouble();
+				System.out.print("Enter distance (in km): ");
+				double distance = input.nextDouble();
+				
+				Taxi taxi = new Taxi("Taxi",baseFare,0);
+				taxi.setFarePerKm(farePerKm);
+				taxi.setDistance(distance);
+				taxi.calculatePayment();
+				transports.add(taxi);
 				
 				
 			}
@@ -69,7 +95,7 @@ public class Main {
 				for (PublicTransport transport : transports) {
 				    totalTripFare += transport.getTotalFare();
 				    System.out.println("Transport: " + transport.getModel());
-				    System.out.println("Total Trip Fare: " + transport.getTotalFare());
+				    System.out.println("Fare: " + transport.getTotalFare());
 				}
 				System.out.println("Total Trip Fare: " + totalTripFare);
 				break;
