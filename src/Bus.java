@@ -4,7 +4,7 @@ public class Bus extends PublicTransport {
 
 	public Bus(String model, double baseFare, double totalFare, Station station) {
 		super(model, baseFare, totalFare);
-		
+		this.baseFare = baseFare;
 		this.station = station;
 		// TODO Auto-generated constructor stub
 	}

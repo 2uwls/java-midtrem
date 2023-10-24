@@ -6,6 +6,7 @@ public class Taxi extends PublicTransport {
 
 	public Taxi(String model, double baseFare, double totalFare) {
 		super(model, baseFare, totalFare);
+		this.baseFare= baseFare;
 		// TODO Auto-generated constructor stub
 	}
 	

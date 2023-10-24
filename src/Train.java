@@ -4,7 +4,7 @@ public class Train extends PublicTransport {
 
 	public Train(String model, double baseFare, double totalFare, Station station) {
 		super(model, baseFare, totalFare);
-		
+		this.baseFare = baseFare;
 		this.station = station;
 		// TODO Auto-generated constructor stub
 	}
@@ -28,7 +28,17 @@ public class Train extends PublicTransport {
 		}else {
 			totalFare = baseFare + (station.getnStations()-5)*(station.getFarePerStation());	
 		}
+		
 		setTotalFare(totalFare);
 	}
+	public void setTotalFare(double totalFare) {
+		this.totalFare = totalFare;
+		
+	}
+	public double getTotalFare() {
+		return totalFare;
+		
+	}
+	
 
 }
