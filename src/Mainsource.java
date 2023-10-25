@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -91,13 +90,8 @@ public class Mainsource {
 				System.out.println(String.format("Total Trip Fare: %.2f",totalTripFare));
 				break;
 			}
-			//enter를 누르면초기화
 			
-			//yes버튼
-			//choose~화면으로
-//			//Cancel버튼
-//			System.out.println("Cancelled!");
-//			System.out.println("New plan:");
+			input.close();
 	
 			
 				

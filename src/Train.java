@@ -1,12 +1,12 @@
 
 public class Train extends PublicTransport {
+	//Composition
 	private Station station;
 
 	public Train(String model, double baseFare, double totalFare, Station station) {
 		super(model, baseFare, totalFare);
 		this.baseFare = baseFare;
 		this.station = station;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public String getModel() {
@@ -21,6 +21,7 @@ public class Train extends PublicTransport {
 		station.setnStations(nStations);
 	}
 	
+	//calculate payment consider number of stations
 	@Override
 	public void calculatePayment() {
 		if (station.getnStations()<5) {
@@ -28,7 +29,6 @@ public class Train extends PublicTransport {
 		}else {
 			totalFare = baseFare + (station.getnStations()-5)*(station.getFarePerStation());	
 		}
-		
 		setTotalFare(totalFare);
 	}
 	public void setTotalFare(double totalFare) {
@@ -36,9 +36,6 @@ public class Train extends PublicTransport {
 		
 	}
 	public double getTotalFare() {
-		return totalFare;
-		
+		return totalFare;	
 	}
-	
-
 }

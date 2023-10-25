@@ -1,8 +1,8 @@
-
+//class for composition
 public class Station {
 	
-	private double farePerStation;
-	private int nStations;
+	private double farePerStation; //variable for fare per stations
+	private int nStations; //variable for number of stations
 	
 	public Station(double farePerStation, int nStations) {
 		super();

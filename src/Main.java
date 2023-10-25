@@ -9,8 +9,6 @@ import javax.swing.ImageIcon;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,31 +54,35 @@ public class Main extends JFrame implements ActionListener {
 	private JButton btnClear;
 	private JPanel panel_number_empty;
 	
-	
+	//variable for controlling input
 	private String inputSpace = "";
 	private String inputValue = "";
 	
-	Station station = new Station(0,0);
-	private int state = 0;
+	//list for adding transport object	
 	List <PublicTransport> transports = new ArrayList<>();
 	
-	private double baseFare;
+	//for station class
+	Station station = new Station(0,0);
 	private double farePerStation;
 	private int nStations;
+
+	//variable for all classes
+	private double baseFare;
+	
+	//variable for taxi class
 	private double farePerKm;
 	private double distance;
+	
+	//variable for dealing state with command
+	private int state = 0;
 	private String command;
 	
-
-	
-	
-
 	/**
 	 * Create the frame.
 	 */
 	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 650);
+		setBounds(100, 100, 549, 634);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -97,7 +99,7 @@ public class Main extends JFrame implements ActionListener {
 		panel_main.add(panel_result);
 		
 		txtrchooseTransportfrom = new JTextArea();
-		txtrchooseTransportfrom.setText("Choose transport (from left menu): ");
+		txtrchooseTransportfrom.setText("Choose transport (from left menu): "); //basic text
 
 		panel_result.add(txtrchooseTransportfrom);
 		
@@ -105,6 +107,7 @@ public class Main extends JFrame implements ActionListener {
 		panel_main.add(panel_number);
 		panel_number.setLayout(new GridLayout(4, 3, 0, 0));
 		
+		//btn0~btn9 receive input from 0~9
 		btn1 = new JButton("");
 		btn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -275,25 +278,22 @@ public class Main extends JFrame implements ActionListener {
 		panel_choice.add(panel_YesNo);
 		panel_YesNo.setLayout(new GridLayout(3, 0, 0, 0));
 		
+		//button for adding new transport(train, bus, taxi)
 		btnYes = new JButton("Yes");
 		btnYes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				
-				
 				txtrchooseTransportfrom.setText("Choose transport (from left menu): ");
-				state=0;
-				
+				state=0; //initializing state for new transport	
 			}
 		});
 		btnYes.setIcon(new ImageIcon(Main.class.getResource("/assets/enterSmall.png")));
 		panel_YesNo.add(btnYes);
 		
+		//button for show sum of transport calculation
 		btnNo = new JButton("No");
 		btnNo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				showResult();
+				showResult(); 
 			}
 		});
 		btnNo.setIcon(new ImageIcon(Main.class.getResource("/assets/cancelSmall.png")));
@@ -303,35 +303,35 @@ public class Main extends JFrame implements ActionListener {
 		panel_choice.add(panel_behavior);
 		panel_behavior.setLayout(new GridLayout(4, 0, 0, 0));
 		
+		//button for loading new plan
 		btnCancel = new JButton("CANCEL");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			    transports.clear(); // transports 리스트 초기화
-			    station = new Station(0, 0); // station 객체 초기화
-			    baseFare = 0; // baseFare 변수 초기화
-			    farePerStation = 0; // farePerStation 변수 초기화
-			    nStations = 0; // nStations 변수 초기화
-			    farePerKm = 0; // farePerKm 변수 초기화
-			    distance = 0; // distance 변수 초기화
-			    inputSpace = ""; // inputSpace 변수 초기화
-			    inputValue = ""; // inputValue 변수 초기화
-			    state = 0; // state 변수 초기화
+			    transports.clear(); // initialize transports list
+			    station = new Station(0, 0); // initialize station object
+			    baseFare = 0; // initialize baseFare variable
+			    farePerStation = 0; // initialize farePerStation variable
+			    nStations = 0; // initialize nStations variable
+			    farePerKm = 0; // initialize farePerKm variable
+			    distance = 0; // initialize distance variable
+			    inputSpace = ""; // initialize inputSpace variable
+			    inputValue = ""; // initialize inputValue variable
+			    state = 0; // initialize state variable
 			    
 				txtrchooseTransportfrom.setText("Cancelled!\n"
 						+ "New Plan:\n"
 						+"Choose transport (from left menu): ");
-				state=0;
 			}
 		});
 		btnCancel.setIcon(new ImageIcon(Main.class.getResource("/assets/cancel.png")));
 		panel_behavior.add(btnCancel);
 		
+		//button for clearing all input
 		btnClear = new JButton("CLEAR");
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String currentText = txtrchooseTransportfrom.getText();
 				String nonNumericText = currentText.replaceAll("[0-9]", "");
-				
 				inputValue = "";
 				inputSpace = "";
 				txtrchooseTransportfrom.setText(nonNumericText+inputValue);
@@ -340,42 +340,33 @@ public class Main extends JFrame implements ActionListener {
 		btnClear.setIcon(new ImageIcon(Main.class.getResource("/assets/clear.png")));
 		panel_behavior.add(btnClear);
 		
+		//button for calling corresponding function according to the command(Train, Bus, Taxi)
 		btnEnter = new JButton("ENTER");
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				if ("Train".equals(command)) {
 					handleTrainState();
 				} else if ("Bus".equals(command)) {
 					handleBusState();
 				} else if ("Taxi".equals(command)) {
 					handleTaxiState();
-					
 				}
-				
 			}
 		});
 		btnEnter.setIcon(new ImageIcon(Main.class.getResource("/assets/enter.png")));
 		panel_behavior.add(btnEnter);
 		
-		
-		
-		
-		
+		// addActionListner to transportBtn in actionPerformed
 		btnTrain.addActionListener(this);
 		btnBus.addActionListener(this);
-		btnTaxi.addActionListener(this);
-		
-		
+		btnTaxi.addActionListener(this);	
 	}
 	
-
 	/**
 	 * Launch the application.
 	 */
+	//function for handling state if user click the train button
 	public void handleTrainState() {
-
-		
 		if (state == 0) {
 			baseFare=Double.parseDouble(inputSpace);
 			inputSpace="";
@@ -383,131 +374,99 @@ public class Main extends JFrame implements ActionListener {
 			state++;
 		} else if(state == 1) {
 			farePerStation = Double.parseDouble(inputSpace);
-
 			inputSpace="";
 			txtrchooseTransportfrom.setText("Enter number of stations: ");
 			state++;
-		} else if (state ==  2) {
-
+		} else if (state == 2) {
 			nStations = Integer.parseInt(inputSpace);
 			inputSpace="";
-			
+			//create object considering input 
 			station = new Station(farePerStation, nStations);
 			Train train = new Train("Train", baseFare, 0, station);
 			train.calculatePayment();
 			transports.add(train);
-			txtrchooseTransportfrom.setText("Add more transport (from right menu)");
-			
+			//text for moving on to the next step
+			txtrchooseTransportfrom.setText("Add more transport (from right menu)?");
 		}	
-	
-	
 	}
-	
+	//function for handling state if user click the bus button
 	public void handleBusState() {
 		if (state == 0) {
 			baseFare=Double.parseDouble(inputSpace);
 			inputSpace="";
 			txtrchooseTransportfrom.setText("Enter fare per station (for extra stations): ");
 			state++;
-			
-		} else if(state ==1) {
+		} else if(state == 1) {
 			farePerStation = Double.parseDouble(inputSpace);
 			inputSpace="";
 			txtrchooseTransportfrom.setText("Enter number of stations: ");
 			state++;
-			
 		} else if (state == 2) {
 			nStations = Integer.parseInt(inputSpace);
 			inputSpace="";
-			
+			//create object considering input 
 			station = new Station(farePerStation, nStations);
 			Bus bus = new Bus("Bus", baseFare, 0, station);
 			bus.calculatePayment();
 			transports.add(bus);
-			txtrchooseTransportfrom.setText("Add more transport (from right menu)");
-			
+			//text for moving on to the next step
+			txtrchooseTransportfrom.setText("Add more transport (from right menu)?");
 		}	
-		
 	}
-	
+	//function for handling state if user click the taxi button
 	public void handleTaxiState() {
 		if (state == 0) {
 			baseFare=Double.parseDouble(inputSpace);
 			inputSpace="";
 			txtrchooseTransportfrom.setText("Enter fare per km: ");
 			state++;
-			
-		} else if(state ==1) {
+		} else if(state == 1) {
 			farePerKm = Double.parseDouble(inputSpace);
 			inputSpace="";
 			txtrchooseTransportfrom.setText("Enter distance (in km): ");
 			state++;
-			
 		} else if (state == 2) {
 			distance = Double.parseDouble(inputSpace);
 			inputSpace="";
 			state++;
-			
+			//create object considering input 
 			Taxi taxi = new Taxi("Taxi",baseFare,0);
 			taxi.setFarePerKm(farePerKm);
 			taxi.setDistance(distance);
 			taxi.calculatePayment();
 			transports.add(taxi);
-			
+			//text for moving on to the next step
 			txtrchooseTransportfrom.setText("Add more transport (from right menu)?");
-			
 		}	
-		
-		
-
 	}
-	
+	//function for show result of each total fare and all total fares
 	public void showResult() {
 		StringBuilder resultText = new StringBuilder();
 		double totalTripFare = 0;
-		
 		for (int i = 0; i< transports.size();i++) {
 			PublicTransport transport = transports.get(i);
 			totalTripFare += transport.getTotalFare();
 			resultText.append("Transport ").append(i + 1).append(": ").append(transport.getModel()).append("\n");
-		    resultText.append(String.format("Fare: %.2f", transport.getTotalFare())).append("\n");
-			
+		    resultText.append(String.format("Fare: %.2f", transport.getTotalFare())).append("\n");	
 		}
-		
 		resultText.append(String.format("==========================\n"
 				+ "Total Trip Fare: %.2f",totalTripFare));
 		txtrchooseTransportfrom.setText(resultText.toString());
 	}
 	
-	
 
 	public void actionPerformed(ActionEvent e) {
-		double totalTripFare = 0;
-		int state = 0;
-		List <PublicTransport> transports = new ArrayList<>();
-		Station station = new Station(0,0);
-	
-		if(e.getSource()== btnTrain) {
-			command = e.getActionCommand();
-			txtrchooseTransportfrom.setText("You choose TRAIN\nEnter base fare: ");
-	
-		
-		}else if(e.getSource()== btnBus) {
-	
-			command = e.getActionCommand();
+		if(e.getSource() == btnTrain) {
+			command = e.getActionCommand(); //btnTrain clicked
+			txtrchooseTransportfrom.setText("You choose TRAIN\nEnter base fare: ");	
+		}else if(e.getSource() == btnBus) {
+			command = e.getActionCommand(); //btnBus clicked
 			txtrchooseTransportfrom.setText("You choose BUS\nEnter base fare: ");
-		
-			
-			
-		}else if (e.getSource()== btnTaxi) {
-			command = e.getActionCommand();
+		}else if (e.getSource() == btnTaxi) {
+			command = e.getActionCommand(); //btnTaxi clicked
 			txtrchooseTransportfrom.setText("You choose TAXI\nEnter base fare: ");
-	
 		}
 	}
-
-	
-	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -517,14 +476,7 @@ public class Main extends JFrame implements ActionListener {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
-			
+			}	
 		});
-		
 	}
-	
-	
-	
-	
-
 }

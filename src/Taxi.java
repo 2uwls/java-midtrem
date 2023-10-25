@@ -1,25 +1,22 @@
 
 public class Taxi extends PublicTransport {
 	
-	private double farePerKm;
-	private double distance;
+	private double farePerKm; //variable for storing fare per km
+	private double distance; //variable for storing distance 
 
 	public Taxi(String model, double baseFare, double totalFare) {
 		super(model, baseFare, totalFare);
 		this.baseFare= baseFare;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public String getModel() {
 		return "KAKAO TAXI";
 	}
 
-
 	@Override
 	public void calculatePayment() {
 		totalFare = baseFare + distance * farePerKm;
-		setTotalFare(totalFare);
-		
+		setTotalFare(totalFare);	
 	}
 
 
